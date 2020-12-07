@@ -1,0 +1,512 @@
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>NDVI Viewer - Baix Llobregat - 1985/2020</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+   
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
+    <link href='css\estilNDVI.css' rel='stylesheet' />
+ 
+    <script>
+
+        var map;
+
+        function Init() 
+        
+        {
+    
+            mapboxgl.accessToken = '';
+            map = new mapboxgl.Map({
+                container: 'map',
+                style: 'https://tilemaps.icgc.cat/tileserver/styles/terrain.json',
+                center: [1.962296375, 41.38],
+                zoom: 10.9,
+                hash: true,
+                pitch: 45,
+                attributionControl: false
+            });
+            map.addControl(new mapboxgl.AttributionControl({
+                compact: true
+            }));
+            map.addControl(new mapboxgl.NavigationControl());
+
+            map.on('load', function () {
+
+                map.addSource("MunBaiLlopm", {
+                    type: "geojson",
+                    data: "datos/MunBaiLlopm.geojson"
+                });
+
+                map.addLayer({
+                    id: "MunBaiLlopm-linelayer",
+                    type: "line",
+                    source: "MunBaiLlopm",
+                    paint: {
+                        "line-width": 2,
+                        "line-color":"black",
+                }
+            });
+
+                map.addLayer({
+                    id: "MunBaiLlopm-filllayer",
+                    type: "fill",
+                    source: "MunBaiLlopm",
+                    paint: {
+                        "fill-opacity":0.2,
+                        "fill-color":"coral",
+                    }                                
+            });
+                map.addSource("MunBaiLlopuntsm", {
+                    type: "geojson",
+                    data: "datos/MunBaiLlopuntsm.geojson"
+                });
+
+                map.addLayer({
+                    id: "MunBaiLlopuntsm-layer",
+                    type: "circle",
+                    source: "MunBaiLlopuntsm",
+                    paint: {
+                        "circle-radius":9,
+                        "circle-opacity": 0.8,
+                        "circle-color": 'red'
+                }
+            })
+            
+            })
+
+    map.on  ("load", function () {
+
+        var popupMun = new mapboxgl.Popup({
+            closeButton: false,
+        closeOnClick: false});
+
+        map.on('mouseenter', "MunBaiLlopuntsm-layer", function (e) {
+  
+  var text = "";
+  
+    for (key in e.features[0].properties) {
+
+        if (key == 'Municipi') {
+
+text += "<div class='townname'=>"+e.features[0].properties[key]+"</div>"+'<div class="clickhere_text">CLICK on the blue circle for more details...</div>'+'<br>'
+}
+
+  };
+
+popupMun.setLngLat(e.lngLat).setHTML(text).addTo(map);
+  
+    map.on('mouseleave', 'MunBaiLlopuntsm-layer', function () {
+map.getCanvas().style.cursor = '';
+popupMun.remove();
+
+});
+
+map.on('mouseenter', "MunBaiLlopuntsm-layer", function () {
+  map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', "MunBaiLlopuntsm-layer", function () {
+  map.getCanvas().style.cursor = '';
+});
+
+})
+            
+    })
+
+    map.on  ("load", function () {
+
+        map.addSource("MunBaiLlo-popups", {
+            type: "geojson",
+            data:   {
+                type: "FeatureCollection",
+                
+                    features:   [
+                    {
+                        type: "Feature",
+                        properties:     {
+                            description:'<div class="NDVI_link"><a href="images/080018.webm" target="_blank" title="Opens in a new window">ABRERA <br> NDVI 1985/2020 - Click here</a></div>'
+                                    },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.902237925, 41.5162579]
+                                }
+                    },
+                    
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080207.webm" target="_blank" title="Opens in a new window">BEGUES <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.924677961, 41.33017397 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080569.webm" target="_blank" title="Opens in a new window">CASTELLDEFELS <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.976232924, 41.28026946]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080667.webm" target="_blank" title="Opens in a new window">CASTELLVÍ DE ROSANES <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.89951114, 41.45005532]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080689.webm" target="_blank" title="Opens in a new window">CERVELLÓ <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.958951323, 41.39611352]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080692.webm" target="_blank" title="Opens in a new window">COLLBATÓ <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.829521495, 41.56729637]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080728.webm" target="_blank" title="Opens in a new window">CORBERA DE LLOBREGAT <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.927701004, 41.41610239]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080734.webm" target="_blank" title="Opens in a new window">CORNELLÀ DE LLOBREGAT <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.070159567, 41.35517145 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080765.webm" target="_blank" title="Opens in a new window">ESPARREGUERA <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.870708537, 41.53896619 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080771.webm" target="_blank" title="Opens in a new window">ESPLUGUES DE LLOBREGAT <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.087992375, 41.37769777  ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/080898.webm" target="_blank" title="Opens in a new window">GAVÀ <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.004774201, 41.30611887  ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/081141.webm" target="_blank" title="Opens in a new window">MARTORELL <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.930730461, 41.4743361 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/081234.webm" target="_blank" title="Opens in a new window">MOLINS DE REI <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.015962183, 41.41359396 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/081477.webm" target="_blank" title="Opens in a new window">OLESA DE MONTSERRAT <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.893900541, 41.54350594 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/081574.webm" target="_blank" title="Opens in a new window">PALLEJÀ <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.996775252, 41.4225799 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/081580.webm" target="_blank" title="Opens in a new window">EL PAPIOL <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.010961168, 41.43802425 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/081691.webm" target="_blank" title="Opens in a new window">EL PRAT DE LLOBREGAT <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.093044846, 41.33073627 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/081960.webm" target="_blank" title="Opens in a new window">SANT ANDREU DE LA BARCA <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.971403604, 41.44999966 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082009.webm" target="_blank" title="Opens in a new window">SANT BOI DE LLOBREGAT <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.042704219, 41.34752428 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082042.webm" target="_blank" title="Opens in a new window">SANT CLIMENT DE LLOBREGAT <br> NDVI 1985/2020 - Click here</a></div><'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.996420408, 41.3370707 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082080.webm" target="_blank" title="Opens in a new window">SANT ESTEVE SESROVIRES <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.874365808, 41.49324532 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082114.webm" target="_blank" title="Opens in a new window">SANT FELIU DE LLOBREGAT <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.046230144, 41.38195325 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082172.webm" target="_blank" title="Opens in a new window">SANT JOAN DESPÍ <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.054954782, 41.36782167 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082212.webm" target="_blank" title="Opens in a new window">SANT JUST DESVERN <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.075560984, 41.38572828 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082444.webm" target="_blank" title="Opens in a new window">SANTA COLOMA DE CERVELLÓ <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.016180072, 41.36897282 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082634.webm" target="_blank" title="Opens in a new window">SANT VICENÇ DELS HORTS <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.009712625, 41.39333667 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082896.webm" target="_blank" title="Opens in a new window">TORRELLES DE LLOBREGAT <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.981109195, 41.35904782 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/082956.webm" target="_blank" title="Opens in a new window">VALLIRANA <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.931881445, 41.38805611 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/083015.webm" target="_blank" title="Opens in a new window">VILADECANS <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [2.019652409, 41.31589677 ]
+                                }                  
+                    },
+
+                    {
+                        type: "Feature",
+                        properties: {
+                            description:'<div class="NDVI_link"><a href="images/089058.webm" target="_blank" title="Opens in a new window">LA PALMA DE CERVELLÓ <br> NDVI 1985/2020 - Click here</a></div>'
+                                },
+                        geometry:   {
+                            type: 'Point',
+                            coordinates: [1.971237761, 41.41120333 ]
+                                }                  
+                    },
+
+                                ]
+                        }
+                                            }
+                        );
+        
+        map.addLayer({
+            id: 'MunBaiLlo-popups-layer',
+            type: 'circle',
+            source: 'MunBaiLlo-popups',
+            paint: {
+                    "circle-radius":6,
+                    "circle-color": 'blue',
+                    "circle-opacity":1
+                    }   
+                    });
+ 
+
+        map.on      ('click', 'MunBaiLlo-popups-layer', function (e) {
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
+ 
+
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180)   {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                                                                }
+ 
+        new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+                                                                }
+                    );
+
+        map.on  ('mouseenter', 'MunBaiLlo-popups-layer', function () {
+        map.getCanvas().style.cursor = 'pointer';
+                                                            }
+                );
+ 
+        map.on  ('mouseleave', 'MunBaiLlo-popups-layer', function () {
+        map.getCanvas().style.cursor = '';
+                                                            }
+                );
+
+                                }
+            )
+
+        }
+
+    </script>
+</head>
+<body onload="Init()">
+    <div id='map'>
+        <div class="títol">
+            <p>NDVI 1985/2020</p>
+            <p>Baix Llobregat Region</p>
+    </div>
+</body>
+</html>
