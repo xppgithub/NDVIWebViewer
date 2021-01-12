@@ -89,7 +89,7 @@
 
         if (key == 'Municipi') {
 
-text += "<div class='townname'=>"+e.features[0].properties[key]+"</div>"+'<div class="clickhere_text">CLICK on the blue circle for more details...</div>'+'<br>'
+text += "<div class='townname'=>"+e.features[0].properties[key]+"</div>"+'<div class="clickhere_text">CLICK on the<strong> blue circle </strong>for more details...</div>'+'<br>'
 }
 
   };
@@ -507,6 +507,7 @@ map.on('mouseleave', "MunBaiLlopuntsm-layer", function () {
         <div class="títol">
             <p>NDVI 1985/2020</p>
             <p>Baix Llobregat Region</p>
+            <p>Towns</p>
     </div>
 </body>
 </html>
